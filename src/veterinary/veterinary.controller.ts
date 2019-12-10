@@ -26,6 +26,21 @@ export class VeterinaryController {
       });
     }
   }
+  @Get(':name')
+  // Find and return all veterinarians
+  async findByName(@Param('name') name: string, @Res() res: Response) {
+    try {
+      const veterinarians = await this.veterinaryService.findByName(name);
+      res.status(HttpStatus.OK).json({
+        message: 'Veterinarios cargados',
+        veterinarians
+      });
+    } catch (err) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: err.message
+      });
+    }
+  }
   @Post()
   // Create a new veterinary
   async create(@Body() data: object, @Res() res: Response) {

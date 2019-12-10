@@ -14,6 +14,10 @@ export class VeterinaryService {
   async findAll() {
     return await this.veterinaryModel.find();
   }
+  async findByName(name: string) {
+    // Regular expression as SQL like
+    return await this.veterinaryModel.find({ name: { $regex: '.*' + name + '.*', $options: 'i' } });
+  }
   async create(data: object) {
     await Validation.create.validateAsync(data);
     const newVeterinary = new this.veterinaryModel(data);
