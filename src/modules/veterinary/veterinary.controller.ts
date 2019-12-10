@@ -3,7 +3,7 @@
  * SyntaxError instead of NotFountException
  * Try catch for catch another error types
  * @reactivex/rxjs for easy suscribtions for mongo data callbacks
- * 
+ *
  */
 
 import {
