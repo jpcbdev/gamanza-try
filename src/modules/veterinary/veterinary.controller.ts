@@ -2,11 +2,24 @@
  * Hapi/Joi models instead of interfaces for data validation
  * SyntaxError instead of NotFountException
  * Try catch for catch another error types
+ * @reactivex/rxjs for easy suscribtions for mongo data callbacks
+ * 
  */
 
-import { Controller, Post, Get, Put, Delete, Param, Body, HttpStatus, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpStatus,
+  Res
+} from '@nestjs/common';
 import { VeterinaryService } from './veterinary.service';
 import { Response } from 'express';
+import { Observable } from '@reactivex/rxjs';
 @Controller('veterinary')
 export class VeterinaryController {
   constructor(private readonly veterinaryService: VeterinaryService) {}
@@ -15,11 +28,14 @@ export class VeterinaryController {
   // Find and return all veterinarians
   async findAll(@Res() res: Response) {
     try {
-      const veterinarians = await this.veterinaryService.findAll();
-      res.status(HttpStatus.OK).json({
-        message: 'Veterinarios cargados',
-        veterinarians
-      });
+      Observable.fromPromise(this.veterinaryService.findAll()).subscribe(
+        veterinarians => {
+          res.status(HttpStatus.OK).json({
+            message: 'Veterinarios cargados',
+            veterinarians
+          });
+        }
+      );
     } catch (err) {
       res.status(HttpStatus.BAD_REQUEST).json({
         message: err.message
@@ -57,7 +73,11 @@ export class VeterinaryController {
   }
   @Put(':id')
   // Update veterinary by id
-  async update(@Param('id') id: string, @Body() body: object, @Res() res: Response) {
+  async update(
+    @Param('id') id: string,
+    @Body() body: object,
+    @Res() res: Response
+  ) {
     try {
       const veterinary = await this.veterinaryService.update(id, body);
       if (!veterinary) throw new SyntaxError('El veterinario no existe');

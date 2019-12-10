@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class PetService {
+  private petCache: Array<Model<any>>;
   constructor(
     @InjectModel('Pet') private readonly petModel: Model<any>,
     @InjectModel('Customer') private readonly customerModel: Model<any>
@@ -36,7 +37,6 @@ export class PetService {
     await Validation.update.validateAsync(data);
     return await this.petModel.findOneAndUpdate({ _id }, data);
   }
-
   async delete(_id: string) {
     return await this.petModel.findOneAndDelete({ _id });
   }

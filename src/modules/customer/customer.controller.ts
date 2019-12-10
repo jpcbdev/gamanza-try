@@ -2,11 +2,24 @@
  * Hapi/Joi models instead of interfaces for data validation
  * SyntaxError instead of NotFountException
  * Try catch for catch another error types
+ * @reactivex/rxjs for easy suscribtions for mongo data callbacks
+ * 
  */
 
-import { Controller, Post, Get, Put, Delete, Param, Body, HttpStatus, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpStatus,
+  Res
+} from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { Response } from 'express';
+import { Observable } from '@reactivex/rxjs';
 @Controller('Customer')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
@@ -15,11 +28,14 @@ export class CustomerController {
   // Find and return all customers
   async findAll(@Res() res: Response) {
     try {
-      const customers = await this.customerService.findAll();
-      res.status(HttpStatus.OK).json({
-        message: 'Clientes cargados',
-        customers
-      });
+      Observable.fromPromise(this.customerService.findAll()).subscribe(
+        customers => {
+          res.status(HttpStatus.OK).json({
+            message: 'Clientes cargados',
+            customers
+          });
+        }
+      );
     } catch (err) {
       res.status(HttpStatus.BAD_REQUEST).json({
         message: err.message
@@ -57,7 +73,11 @@ export class CustomerController {
   }
   @Put(':id')
   // Update customer by id
-  async update(@Param('id') id: string, @Body() body: object, @Res() res: Response) {
+  async update(
+    @Param('id') id: string,
+    @Body() body: object,
+    @Res() res: Response
+  ) {
     try {
       const customer = await this.customerService.update(id, body);
       if (!customer) throw new SyntaxError('El Clente no existe');

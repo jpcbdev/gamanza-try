@@ -2,6 +2,7 @@
  * Hapi/Joi models instead of interfaces for data validation
  * SyntaxError instead of NotFountException
  * Try catch for catch another error types
+ * @reactivex/rxjs for easy suscribtions for mongo data callbacks
  */
 
 import {
@@ -17,6 +18,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { PetService } from './pet.service';
+import { Observable } from '@reactivex/rxjs';
 
 @Controller('Pet')
 export class PetController {
@@ -26,8 +28,9 @@ export class PetController {
   // Find and return all pets
   async findAll(@Res() res: Response) {
     try {
-      const pets = await this.petService.findAll();
-      res.status(HttpStatus.OK).json({ message: 'Mascotas cargadas', pets });
+      Observable.fromPromise(this.petService.findAll()).subscribe(pets => {
+        res.status(HttpStatus.OK).json({ message: 'Mascotas cargadas', pets });
+      });
     } catch (err) {
       res.status(HttpStatus.BAD_REQUEST).json({
         message: err.message
