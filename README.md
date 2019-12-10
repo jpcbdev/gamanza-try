@@ -1,5 +1,17 @@
 # Veterinaria Nest.JS API
 
+## **Diagrama de base de datos**
+
+![Image](diagram.png)
+
+## **Consideraciones**
+
+- No se utilizó documentos embebidos por lo que hubo que crear tablas apartir de la normalización aunque muchas de las tablas no son solicitadas en el enunciado.
+
+- Normalmente se genera la fecha desde el servidor para sincronizar la fecha y hora con la zona horaria del mismo pero en este caso pasamos las fechas como parametros del body de las peticiones
+
+- Validación de tipos mediante la libreria Joi de Hapi esto para remplazar las interfaces nativas usadas en mongoose
+
 ## **End Points**
 
 ## _/veterinary_
