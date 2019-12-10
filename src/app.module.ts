@@ -14,6 +14,11 @@ import { CustomerSchema } from './schemas/Customer';
 import { CustomerService } from './customer/customer.service';
 import { CustomerController } from './customer/customer.controller';
 
+// Pet
+import { PetSchema } from './schemas/Pet';
+import { PetService } from './pet/pet.service';
+import { PetController } from './pet/pet.controller';
+
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/veterinary', {
@@ -38,10 +43,20 @@ import { CustomerController } from './customer/customer.controller';
         name: 'Customer',
         schema: CustomerSchema,
         collection: 'customer'
+      },
+      {
+        name: 'Pet',
+        schema: PetSchema,
+        collection: 'pet'
       }
     ])
   ],
-  controllers: [AppController, VeterinaryController, CustomerController],
-  providers: [AppService, VeterinaryService, CustomerService]
+  controllers: [
+    AppController,
+    VeterinaryController,
+    CustomerController,
+    PetController
+  ],
+  providers: [AppService, VeterinaryService, CustomerService, PetService]
 })
 export class AppModule {}
