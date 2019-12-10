@@ -1,47 +1,73 @@
 /**
- * Using Hapi/Joi models instead of interfaces for data validation
+ * Hapi/Joi models instead of interfaces for data validation
+ * SyntaxError instead of NotFountException
+ * Try catch for catch another error types
  */
-import { Controller, Post, Get, Put, Delete, Req, HttpException, Param, Body } from '@nestjs/common';
-import { VeterinaryService } from './veterinary.service';
 
+import { Controller, Post, Get, Put, Delete, Param, Body, HttpStatus, Res } from '@nestjs/common';
+import { VeterinaryService } from './veterinary.service';
+import { Response } from 'express';
 @Controller('veterinary')
 export class VeterinaryController {
   constructor(private readonly veterinaryService: VeterinaryService) {}
 
   @Get()
-  findAll() {
+  // Find and return all veterinarians
+  async findAll(@Res() res: Response) {
     try {
-      return this.veterinaryService.findAll();
+      const veterinarians = await this.veterinaryService.findAll();
+      res.status(HttpStatus.OK).json({
+        message: 'Veterinarios cargados',
+        veterinarians
+      });
     } catch (err) {
-      throw new HttpException(err.message, 400);
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: err.message
+      });
     }
   }
   @Post()
-  async create(@Body() data: object) {
+  // Create a new veterinary
+  async create(@Body() data: object, @Res() res: Response) {
     try {
       await this.veterinaryService.create(data);
-      return 'Veterinario agregado';
+      res.status(HttpStatus.OK).json({
+        message: 'Veterinario agregado'
+      });
     } catch (err) {
-      console.log(err);
-      throw new HttpException(err.message, 400);
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: err.message
+      });
     }
   }
   @Put(':id')
-  async update(@Param('id') id: string, @Body() body: object) {
+  // Update veterinary by id
+  async update(@Param('id') id: string, @Body() body: object, @Res() res: Response) {
     try {
-      if (!(await this.veterinaryService.update(id, body))) throw new SyntaxError('El veterinario no existe');
-      return 'Veterinario actualizado';
+      const veterinary = await this.veterinaryService.update(id, body);
+      if (!veterinary) throw new SyntaxError('El veterinario no existe');
+      res.status(HttpStatus.OK).json({
+        message: 'Veterinario actualizado'
+      });
     } catch (err) {
-      throw new HttpException(err.message, 400);
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: err.message
+      });
     }
   }
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  // Delete veterinary by id
+  async delete(@Param('id') id: string, @Res() res: Response) {
     try {
-      if (!(await this.veterinaryService.delete(id))) throw new SyntaxError('El veterinario no existe');
-      return 'Veterinario eliminado';
+      const veterinary = await this.veterinaryService.delete(id);
+      if (!veterinary) throw new SyntaxError('El veterinario no existe');
+      res.status(HttpStatus.OK).json({
+        message: 'Veterinario eliminado'
+      });
     } catch (err) {
-      throw new HttpException(err.message, 400);
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: err.message
+      });
     }
   }
 }

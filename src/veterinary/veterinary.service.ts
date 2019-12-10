@@ -1,3 +1,7 @@
+/**
+ * All functions inside controller try catch block
+ */
+
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import Validation from '../validations/veterinary';
@@ -19,7 +23,6 @@ export class VeterinaryService {
     await Validation.update.validateAsync(data);
     return await this.veterinaryModel.findOneAndUpdate({ _id }, data);
   }
-
   async delete(_id: string) {
     return await this.veterinaryModel.findOneAndDelete({ _id });
   }
