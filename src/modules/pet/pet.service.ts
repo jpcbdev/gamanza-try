@@ -4,7 +4,7 @@
 
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
-import Validation from '../validations/pet';
+import Validation from '../../validations/pet';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()

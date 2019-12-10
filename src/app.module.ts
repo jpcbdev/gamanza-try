@@ -6,18 +6,18 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 // Veterinary
 import { VeterinarySchema } from './schemas/Veterinary';
-import { VeterinaryService } from './veterinary/veterinary.service';
-import { VeterinaryController } from './veterinary/veterinary.controller';
+import { VeterinaryService } from './modules/veterinary/veterinary.service';
+import { VeterinaryController } from './modules/veterinary/veterinary.controller';
 
 // Customer
 import { CustomerSchema } from './schemas/Customer';
-import { CustomerService } from './customer/customer.service';
-import { CustomerController } from './customer/customer.controller';
+import { CustomerService } from './modules/customer/customer.service';
+import { CustomerController } from './modules/customer/customer.controller';
 
 // Pet
 import { PetSchema } from './schemas/Pet';
-import { PetService } from './pet/pet.service';
-import { PetController } from './pet/pet.controller';
+import { PetService } from './modules/pet/pet.service';
+import { PetController } from './modules/pet/pet.controller';
 
 @Module({
   imports: [
