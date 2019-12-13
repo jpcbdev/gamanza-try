@@ -8,6 +8,7 @@
 
 - Cliente integrado para probar el funcionamiento de los websockets disponible en el puerto _5000_ corriendo el comando _npm run start:client_
 - Se implementa los websockets para el trafico de datos en los métodos get de cada endpoint
+- Se agregó la validación para los object id usando expresiones regulares
 
 ## **Consideraciones**
 
@@ -17,7 +18,24 @@
 
 - Validación de tipos mediante la libreria Joi de Hapi esto para remplazar las interfaces nativas usadas en mongoose
 
-## **End Points**
+## **End Points WS**
+
+> CLIENT
+
+- socket.on('veterinarians');
+- socket.on('customers');
+- socket.on('pets');
+- socket.emit('veterinarians');
+- socket.emit('customers');
+- socket.emit('pets');
+
+> SERVER
+
+- server.emit('veterinarians', veterinarians);
+- server.emit('customers', customers);
+- server.emit('pets', pets);
+
+## **End Points HTTP**
 
 ## _/veterinary_
 
