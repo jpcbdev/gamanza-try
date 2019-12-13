@@ -4,6 +4,11 @@
 
 ![Image](diagram.png)
 
+## **Mejoras**
+
+- Cliente integrado para probar el funcionamiento de los websockets disponible en el puerto _5000_ corriendo el comando _npm run start:client_
+- Se implementa los websockets para el trafico de datos en los métodos get de cada endpoint
+
 ## **Consideraciones**
 
 - No se utilizó documentos embebidos por lo que hubo que crear tablas apartir de la normalización aunque muchas de las tablas no son solicitadas en el enunciado.
@@ -11,10 +16,6 @@
 - Normalmente se genera la fecha desde el servidor para sincronizar la fecha y hora con la zona horaria del mismo pero en este caso pasamos las fechas como parametros del body de las peticiones
 
 - Validación de tipos mediante la libreria Joi de Hapi esto para remplazar las interfaces nativas usadas en mongoose
-
-## **Correcciones**
-
-- Se implementa websockets para el trafico de datos en los métodos get de cada endpoint
 
 ## **End Points**
 
