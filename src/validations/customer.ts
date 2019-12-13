@@ -12,6 +12,7 @@ export default {
       .required()
       .error(SyntaxError('Ingrese el teléfono')),
     veterinary_id: Joi.string()
+      .regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
       .required()
       .error(SyntaxError('Ingrese el identificador del veterinario')),
     date: Joi.date()
@@ -32,6 +33,7 @@ export default {
       .required()
       .error(SyntaxError('Ingrese el teléfono')),
     veterinary_id: Joi.string()
+      .regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
       .required()
       .error(SyntaxError('Ingrese el identificador del veterinario')),
     date: Joi.date()

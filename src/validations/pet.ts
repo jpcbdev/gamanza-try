@@ -12,6 +12,7 @@ export default {
       .required()
       .error(SyntaxError('Ingrese la raza')),
     customer_id: Joi.string()
+      .regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
       .required()
       .error(SyntaxError('Ingrese el identificador del dueño'))
   }),
@@ -26,6 +27,7 @@ export default {
       .required()
       .error(SyntaxError('Ingrese la raza')),
     customer_id: Joi.string()
+      .regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
       .required()
       .error(SyntaxError('Ingrese el identificador del dueño'))
   })
