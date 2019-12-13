@@ -19,6 +19,9 @@ import { PetSchema } from './schemas/Pet';
 import { PetService } from './modules/pet/pet.service';
 import { PetController } from './modules/pet/pet.controller';
 
+// Web sockets server
+import { AppGateway } from './app.gateway';
+
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/veterinary', {
@@ -57,6 +60,12 @@ import { PetController } from './modules/pet/pet.controller';
     CustomerController,
     PetController
   ],
-  providers: [AppService, VeterinaryService, CustomerService, PetService]
+  providers: [
+    AppService,
+    VeterinaryService,
+    CustomerService,
+    PetService,
+    AppGateway
+  ]
 })
 export class AppModule {}

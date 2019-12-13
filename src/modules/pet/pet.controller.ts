@@ -2,7 +2,7 @@
  * Hapi/Joi models instead of interfaces for data validation
  * SyntaxError instead of NotFountException
  * Try catch for catch another error types
- * @reactivex/rxjs for easy suscribtions for mongo data callbacks
+ * Create, update and delete actions reload db data using websockets client
  */
 
 import {
@@ -18,27 +18,16 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { PetService } from './pet.service';
-import { Observable } from '@reactivex/rxjs';
+
+// Websocket client
+const io = require('socket.io-client');
+const socket = io('http://localhost:3000');
 
 @Controller('Pet')
 export class PetController {
   constructor(private readonly petService: PetService) {}
 
-  @Get()
-  // Find and return all pets
-  async findAll(@Res() res: Response) {
-    try {
-      Observable.fromPromise(this.petService.findAll()).subscribe(pets => {
-        res.status(HttpStatus.OK).json({ message: 'Mascotas cargadas', pets });
-      });
-    } catch (err) {
-      res.status(HttpStatus.BAD_REQUEST).json({
-        message: err.message
-      });
-    }
-  }
   @Get(':name')
-  // Find pets by name
   async findByName(@Param('name') name: string, @Res() res: Response) {
     try {
       const pets = await this.petService.findByName(name);
@@ -50,10 +39,11 @@ export class PetController {
     }
   }
   @Post()
-  // Create a new pet
   async create(@Body() data: object, @Res() res: Response) {
     try {
       await this.petService.create(data);
+      // Websocket client emit
+      socket.emit('pets');
       res.status(HttpStatus.OK).json({ message: 'Mascota agregada' });
     } catch (err) {
       res.status(HttpStatus.BAD_REQUEST).json({
@@ -62,7 +52,6 @@ export class PetController {
     }
   }
   @Put(':id')
-  // Update a pet by id
   async update(
     @Param('id') id: string,
     @Body() data: object,
@@ -71,6 +60,8 @@ export class PetController {
     try {
       const pet = await this.petService.update(id, data);
       if (!pet) throw new SyntaxError('La mascota no existe');
+      // Websocket client emit
+      socket.emit('pets');
       res.status(HttpStatus.OK).json({
         message: 'Mascota actualizada'
       });
@@ -80,12 +71,13 @@ export class PetController {
       });
     }
   }
-  // Delete a pet by id
   @Delete(':id')
   async delete(@Param('id') id: string, @Res() res: Response) {
     try {
       const pet = await this.petService.delete(id);
       if (!pet) throw new SyntaxError('La mascota no existe');
+      // Websocket client emit
+      socket.emit('pets');
       res.status(HttpStatus.OK).json({
         message: 'Mascota eliminada'
       });

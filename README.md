@@ -12,13 +12,18 @@
 
 - Validación de tipos mediante la libreria Joi de Hapi esto para remplazar las interfaces nativas usadas en mongoose
 
+## **Correcciones**
+
+- Se implementa websockets para el trafico de datos en los métodos get de cada endpoint
+
 ## **End Points**
 
 ## _/veterinary_
 
-> GET **Busquedas con y sin parametos**
+> GET **Busquedas con parametos**
 
-- http://localhost:3000/veterinary
+<!-- - http://localhost:3000/veterinary -->
+
 - http://localhost:3000/veterinary/:name
 
 > POST
@@ -41,9 +46,10 @@
 
 ## _/customer_
 
-> GET **Busquedas con y sin parametros**
+> GET **Busquedas con parametros**
 
-- http://localhost:3000/customer
+<!-- - http://localhost:3000/customer -->
+
 - http://localhost:3000/customer/:name
 
 > POST
@@ -66,9 +72,10 @@
 
 ## _/pet_
 
-> GET **Busquedas con y sin parametos**
+> GET **Busquedas con parametos**
 
-- http://localhost:3000/pet
+<!-- - http://localhost:3000/pet -->
+
 - http://localhost:3000/pet/:name
 
 > POST

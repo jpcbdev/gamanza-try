@@ -25,12 +25,13 @@
     "@nestjs/core": "^6.7.2",
     "@nestjs/mongoose": "^6.1.2",
     "@nestjs/platform-express": "^6.7.2",
-    "@reactivex/rxjs": "^6.5.3",
+    "@nestjs/platform-socket.io": "^6.10.10",
+    "@nestjs/websockets": "^6.10.10",
     "mongoose": "^5.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
-    "rxjs-compat": "^6.5.3"
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",

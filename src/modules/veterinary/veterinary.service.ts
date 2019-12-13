@@ -9,14 +9,18 @@ import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class VeterinaryService {
-  constructor(@InjectModel('Veterinary') private readonly veterinaryModel: Model<any>) {}
+  constructor(
+    @InjectModel('Veterinary') private readonly veterinaryModel: Model<any>
+  ) {}
 
   async findAll() {
     return await this.veterinaryModel.find();
   }
   async findByName(name: string) {
     // Regular expression as SQL like
-    return await this.veterinaryModel.find({ name: { $regex: '.*' + name + '.*', $options: 'i' } });
+    return await this.veterinaryModel.find({
+      name: { $regex: '.*' + name + '.*', $options: 'i' }
+    });
   }
   async create(data: object) {
     await Validation.create.validateAsync(data);
